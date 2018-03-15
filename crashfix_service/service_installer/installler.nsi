@@ -131,8 +131,8 @@ FunctionEnd
 !insertmacro IsUserAdmin ""
 !insertmacro IsUserAdmin "un."
 
-!define LVM_GETITEMCOUNT 0x1004
-!define LVM_GETITEMTEXT 0x102D
+# !define LVM_GETITEMCOUNT 0x1004
+# !define LVM_GETITEMTEXT 0x102D
  
 Function DumpLog
   Exch $5
@@ -311,19 +311,19 @@ Section "CrashFix Service"
   ${SetOutPath} $INSTDIR\bin
   ${File} "..\bin\" "crashfixd.exe"
   #${File} "..\bin\" "libeay32.dll"
-  ${File} "..\bin\" "msvcp100.dll"
-  ${File} "..\bin\" "msvcr100.dll"  
+  #${File} "..\bin\" "msvcp100.dll"
+  #${File} "..\bin\" "msvcr100.dll"  
   ${File} "..\bin\" "uploader.exe"
   ${File} "..\bin\" "uploader_gui.exe"
       
-  ${SetOutPath} $INSTDIR\conf  
-  File /oname=crashfixd.conf "..\conf\crashfixd.conf.win32"   
+  #${SetOutPath} $INSTDIR\conf  
+  #File /oname=crashfixd.conf "..\conf\crashfixd.conf.win32"   
   
-  nsis_plugin::write_config_string "$INSTDIR\conf\crashfixd.conf" "WEB_ROOT_DIR" "$WebAppInstallDir"
-  nsis_plugin::write_config_string "$INSTDIR\conf\crashfixd.conf" "WEBMASTER_EMAIL" "$AdminEmailAddress"
-  nsis_plugin::write_config_string "$INSTDIR\conf\crashfixd.conf" "SMTP_SERVER" "$SMTPServer"
-  nsis_plugin::write_config_string "$INSTDIR\conf\crashfixd.conf" "SMTP_LOGIN" "$SMTPUser"
-  nsis_plugin::write_config_string "$INSTDIR\conf\crashfixd.conf" "SMTP_PASSWORD" "$SMTPPassword"  
+  #nsis_plugin::write_config_string "$INSTDIR\conf\crashfixd.conf" "WEB_ROOT_DIR" "$WebAppInstallDir"
+  #nsis_plugin::write_config_string "$INSTDIR\conf\crashfixd.conf" "WEBMASTER_EMAIL" "$AdminEmailAddress"
+  #nsis_plugin::write_config_string "$INSTDIR\conf\crashfixd.conf" "SMTP_SERVER" "$SMTPServer"
+  #nsis_plugin::write_config_string "$INSTDIR\conf\crashfixd.conf" "SMTP_LOGIN" "$SMTPUser"
+  #nsis_plugin::write_config_string "$INSTDIR\conf\crashfixd.conf" "SMTP_PASSWORD" "$SMTPPassword"  
   
   ${If} $LicenseFilePath != ""
 	CopyFiles /SILENT /FILESONLY $LicenseFilePath $INSTDIR\licenses\crashfix.lic
