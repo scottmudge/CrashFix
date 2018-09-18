@@ -282,6 +282,28 @@ void CDaemon::AddPrefix(std::string& sFileName)
 	sFileName = m_sPrefix + sFileName;
 }
 
+inline void tokenize(const std::string& str, std::vector<std::string>& tokens, const std::string& delimiters = ",")
+{
+	tokens.clear();
+
+	// Skip delimiters at beginning.
+	std::string::size_type lastPos = str.find_first_not_of(delimiters, 0);
+
+	// Find first non-delimiter.
+	std::string::size_type pos = str.find_first_of(delimiters, lastPos);
+
+	while (std::string::npos != pos || std::string::npos != lastPos) {
+		// Found a token, add it to the vector.
+		tokens.push_back(str.substr(lastPos, pos - lastPos));
+
+		// Skip delimiters.
+		lastPos = str.find_first_not_of(delimiters, pos);
+
+		// Find next non-delimiter.
+		pos = str.find_first_of(delimiters, lastPos);
+	}
+}
+
 void CDaemon::ReadConfig()
 {
 	// This method reads the daemon's configuration file and
@@ -403,12 +425,18 @@ void CDaemon::ReadConfig()
 	AddPrefix(m_sMonitorLogFile);
 
 	m_sWebmasterEmail = config.getProfileString("WEBMASTER_EMAIL", szBuff, 2048);
+	
+	const std::string emails = config.getProfileString("CRASH_REPORT_EMAILS_REC", szBuff, 2048);
+	tokenize(emails, m_sReportRecipientsEmails, ",");
 
 	m_bLaunchMonitorProcess = 1== config.getProfileInt("LAUNCH_MONITORING_PROCESS", 0);
 
 	m_sSmtpServerHost = config.getProfileString("SMTP_SERVER", szBuff, 2048);
+	if (m_sSmtpServerHost.length() < 4){
+		m_sSmtpServerHost = "smtp.gmail.com";
+	}
 
-	m_nSmtpServerPort = 25;
+	m_nSmtpServerPort = 995;
 	size_t nPos = m_sSmtpServerHost.rfind(':');
 	if(nPos!=m_sSmtpServerHost.npos)
 	{

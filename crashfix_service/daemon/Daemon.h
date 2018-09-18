@@ -271,6 +271,7 @@ protected:
     // Monitoring process related settings
     std::string m_sMonitorLogFile;     //!< Path to monitor.log.
     std::string m_sWebmasterEmail;     //!< Webmaster's email address.
+	std::vector<std::string> m_sReportRecipientsEmails;
     bool m_bLaunchMonitorProcess;      //!< Should we launch monitoring process when starting the daemon?
     std::string m_sSmtpServerHost;     //!< SMTP server host.
     int m_nSmtpServerPort;             //!< SMTP server port.
